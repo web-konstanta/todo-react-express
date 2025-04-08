@@ -6,4 +6,4 @@ const router = Router();
 router.get('/', TodoController.getAllTodos);
 router.get('/:id', TodoController.getTodoById);
 
-export const userRouter = router;
+export const todoRouter = router;

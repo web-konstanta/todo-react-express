@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ICreateTodoDto, IUpdateTodoDto } from '../interfaces/todo.interface';
 import prisma from '../lib/prisma';
 import TodoService from '../services/todo.service';
+import HttpError from '../expection/http.error';
 
 class TodoController {
 	private static formatResponse<T>(
@@ -17,28 +18,20 @@ class TodoController {
 		});
 	}
 
-	public static async getAllTodos(req: Request, res: Response): Promise<void> {
-		try {
-			const todos = await prisma.todo.findMany();
-			TodoController.formatResponse(res, todos, 200, 'Todos retrieved successfully');
-		} catch (error) {
-			console.log(error)
-		}
+	public static async getAllTodos(req: Request, res: Response, next: NextFunction): Promise<void> {
+		const todos = await prisma.todo.findMany();
+		TodoController.formatResponse(res, todos, 200, 'Todos retrieved successfully');
 	}
 
-	public static async getTodoById(req: Request, res: Response): Promise<void> {
-		try {
-			const id = parseInt(req.params.id);
-			const todo = await TodoService.getTodoById(id);
+	public static async getTodoById(req: Request, res: Response, next: NextFunction): Promise<void> {
+		const id = parseInt(req.params.id);
+		const todo = await TodoService.getTodoById(id);
 
-			if (!todo) {
-				TodoController.formatResponse(res, null, 404, 'Todo not found');
-			}
-
-			TodoController.formatResponse(res, todo, 200, 'Todo fetched successfully')
-		} catch (error) {
-			console.log(error);
+		if (!todo) {
+			throw HttpError.badRequest(404, 'Todo not found');
 		}
+
+		TodoController.formatResponse(res, todo, 200, 'Todo fetched successfully')
 	}
 }
 

@@ -26,6 +26,15 @@ class TodoController {
 		}
 	}
 
+	public static async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
+		try {
+			const todos = await TodoService.getAll(req.user?.id!);
+			TodoController.formatResponse(res, todos, 200, 'Todos retrieved successfully');
+		} catch (error) {
+			next(error);
+		}
+	}
+
 	public static async getTodoById(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
 			const id = parseInt(req.params.id);

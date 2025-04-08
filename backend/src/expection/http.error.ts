@@ -18,6 +18,10 @@ class HttpError extends Error {
 	public static badRequest(statusCode: number, message: string): HttpError {
 		return new HttpError(statusCode, message);
 	}
+
+	public static forbidden(statusCode: number = 403, message: string = 'Forbidden'): HttpError {
+		return new HttpError(statusCode, message);
+	}
 }
 
 export default HttpError;

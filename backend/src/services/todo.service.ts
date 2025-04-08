@@ -6,11 +6,31 @@ import { statusMap } from "../utils/user.statuses";
 
 class TodoService {
 	public static async getAllTodos(): Promise<ITodo[]> {
-		return prisma.todo.findMany();
+		return prisma.todo.findMany({
+			select: {
+				id: true,
+				title: true,
+				description: true,
+				status: true,
+				createdAt: true,
+				user: {
+					select: {
+						id: true,
+						email: true
+					}
+				}
+			}
+		});
+	}
+
+	public static async getAll(userId: number): Promise<ITodo[]> {
+		return prisma.todo.findMany({ where: { userId } });
 	}
 
 	public static async getTodoById(id: number): Promise<ITodo | null> {
-		return prisma.todo.findUnique({ where: { id } });
+		return prisma.todo.findUnique({
+			where: { id }
+		});
 	}
 
 	public static async createTodo(data: Omit<ITodo, 'id'>): Promise<ITodo> {

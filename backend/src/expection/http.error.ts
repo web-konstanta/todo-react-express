@@ -7,8 +7,8 @@ class HttpError extends Error {
 		super(message);
 	}
 
-	public static validationError(message: string, body?: any): HttpError {
-		return new HttpError(422, message, body);
+	public static validationError(body?: any): HttpError {
+		return new HttpError(422, 'Validation failed', body);
 	}
 
 	public static unauthorized(message: string): HttpError {

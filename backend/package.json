@@ -6,7 +6,8 @@
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "db:migrate": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",
@@ -18,10 +19,12 @@
     "@types/node": "^22.14.0",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "express-validator": "^7.2.1",
     "prisma": "^6.5.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@types/express-validator": "^2.20.33",
     "nodemon": "^3.1.9",
     "ts-node": "^10.9.2"
   }

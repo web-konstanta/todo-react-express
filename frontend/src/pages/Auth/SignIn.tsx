@@ -6,7 +6,7 @@ import { AuthContext } from "../../context";
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
-  const { setIsAuth } = useContext(AuthContext);
+  const { setIsAuth, setUser } = useContext(AuthContext);
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -28,8 +28,9 @@ const SignIn: React.FC = () => {
     setLoading(true);
 
     try {
-      await AuthService.login(formData);
+      const response = await AuthService.login(formData);
       setIsAuth(true);
+      setUser(response.user);
       navigate("/todo");
     } catch (err: any) {
       setError(

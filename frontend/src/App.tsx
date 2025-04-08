@@ -1,23 +1,25 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter } from "react-router";
 import AppRouter from "./AppRouter";
 import { AuthContext } from "./context";
 import { useState, useEffect } from "react";
-import { AuthService } from "./api/auth";
+import { User } from "./types";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = AuthService.getToken();
-    if (token) {
+    const token = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    if (token && savedUser) {
       setIsAuth(true);
+      setUser(JSON.parse(savedUser));
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
+    <AuthContext.Provider value={{ isAuth, setIsAuth, user, setUser }}>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>

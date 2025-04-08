@@ -13,9 +13,26 @@ class AuthController {
 
 			const { email, password } = req.body;
 
-			const data = await AuthService.signIn({ email, password });
-			
+			const data = await AuthService.signUp({ email, password });
+
 			res.status(201).json(data)
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	public static async signIn(req: Request, res: Response, next: NextFunction): Promise<void> {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) {
+				throw HttpError.validationError(errors.array());
+			}
+
+			const { email, password } = req.body;
+
+			const data = await AuthService.signIn({ email, password });
+
+			res.json(data)
 		} catch (error) {
 			next(error);
 		}

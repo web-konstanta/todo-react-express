@@ -58,6 +58,8 @@ class TodoService {
 		}
 
 		const { id: _, ...updateData } = data;
+		console.log(updateData.status, statusMap);
+		
 		return prisma.todo.update({
 			where: { id },
 			data: {

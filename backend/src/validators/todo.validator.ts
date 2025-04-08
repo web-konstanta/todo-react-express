@@ -13,7 +13,7 @@ export const createTodoValidator = [
 		.withMessage('Description must be less than 1000 characters'),
 	body('status')
 		.optional()
-		.isBoolean()
+		.isString()
 		.withMessage('Status must be a boolean')
 ];
 

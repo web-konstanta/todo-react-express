@@ -1,4 +1,4 @@
-import { body, param } from "express-validator/lib";
+import { body } from "express-validator/lib";
 
 export const createTodoValidator = [
 	body('title')
@@ -26,7 +26,7 @@ export const updateTodoValidator = [
 	body('description')
 		.notEmpty()
 		.withMessage('Description is required')
-		.isLength({ max: 100 })
+		.isLength({ max: 1000 })
 		.withMessage('Description must be less than 1000 characters'),
 	body('status')
 		.optional()

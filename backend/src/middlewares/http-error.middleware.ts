@@ -15,6 +15,7 @@ export const httpErrorMiddleware: ErrorRequestHandler = (
 		return;
 	}
 
+	console.log(err);
 	res.status(500).json({
 		message: 'Unprocessable error',
 		body: []

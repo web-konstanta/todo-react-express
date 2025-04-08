@@ -20,17 +20,23 @@ model Todo {
   @@map("todos")
 }
 
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     Role?   @default(USER)
+  todos    Todo[]
+
+  @@map("users")
+}
+
 enum Status {
   PENDING
   IN_PROGRESS
   COMPLETED
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  todos    Todo[]
-
-  @@map("users")
+enum Role {
+  ADMIN
+  USER
 }

@@ -5,9 +5,9 @@ export interface ITodo {
 	title: string;
 	description: string;
 	status: Status | null;
-	userId: number;
-	createdAt: Date;
-	updatedAt: Date;
+	userId?: number;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 export interface ICreateTodoDto {

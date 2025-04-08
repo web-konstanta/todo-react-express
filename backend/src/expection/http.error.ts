@@ -11,8 +11,8 @@ class HttpError extends Error {
 		return new HttpError(422, 'Validation failed', body);
 	}
 
-	public static unauthorized(message: string): HttpError {
-		return new HttpError(401, message);
+	public static unauthorized(): HttpError {
+		return new HttpError(401, 'Unauthorized');
 	}
 
 	public static badRequest(statusCode: number, message: string): HttpError {

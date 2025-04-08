@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import prisma from "../lib/prisma";
 import HttpError from "../expection/http.error";
 import bcrypt from "bcrypt";
+import { JwtUserPayload } from "../interfaces/jwt.interface";
 dotenv.config();
 
 class AuthService {
@@ -22,8 +23,13 @@ class AuthService {
 			}
 		});
 
+		const userPayload: JwtUserPayload = {
+			id: user.id,
+			email: user.email
+		};
+
 		const accessToken = jwt.sign(
-			{ email: user.email },
+			userPayload,
 			process.env.JWT_SECRET!,
 			{ expiresIn: '1h' }
 		);
@@ -42,8 +48,13 @@ class AuthService {
 			throw HttpError.badRequest(400, 'Password is incorrect');
 		}
 
+		const userPayload: JwtUserPayload = {
+			id: user.id,
+			email: user.email
+		};
+
 		const accessToken = jwt.sign(
-			{ email: user.email },
+			userPayload,
 			process.env.JWT_SECRET!,
 			{ expiresIn: '1h' }
 		);

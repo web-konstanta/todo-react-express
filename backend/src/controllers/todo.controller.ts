@@ -48,7 +48,7 @@ class TodoController {
 				throw HttpError.validationError(errors.array());
 			}
 
-			const todo = await TodoService.createTodo(req.body);
+			const todo = await TodoService.createTodo({ ...req.body, userId: req.user?.id! });
 			TodoController.formatResponse(res, todo, 201, 'Todo created successfully');
 		} catch (error) {
 			next(error);

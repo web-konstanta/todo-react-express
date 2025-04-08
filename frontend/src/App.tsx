@@ -3,10 +3,18 @@ import "./App.css";
 import { BrowserRouter } from "react-router";
 import AppRouter from "./AppRouter";
 import { AuthContext } from "./context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { AuthService } from "./api/auth";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    const token = AuthService.getToken();
+    if (token) {
+      setIsAuth(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>

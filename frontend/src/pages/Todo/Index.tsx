@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import "./styles.css";
 import { Todo, TodoStatus } from "../../types";
+import { AuthService } from "../../api/auth";
+import { useContext } from "react";
+import { AuthContext } from "../../context";
+import { useNavigate } from "react-router";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const { setIsAuth } = useContext(AuthContext);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState({ title: "", description: "" });
 
@@ -26,9 +32,20 @@ const Index = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const handleLogout = () => {
+    AuthService.logout();
+    setIsAuth(false);
+    navigate("/sign-in");
+  };
+
   return (
     <div className="todo-container">
-      <h1>Todo List</h1>
+      <div className="todo-header">
+        <h1>Todo List</h1>
+        <button onClick={handleLogout} className="logout-button">
+          Logout
+        </button>
+      </div>
 
       <form onSubmit={handleSubmit} className="todo-form">
         <div className="todo-input-group">

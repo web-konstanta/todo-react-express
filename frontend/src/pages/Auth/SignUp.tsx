@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { AuthService, LoginData } from "../../api/auth";
+import { useContext } from "react";
+import { AuthContext } from "../../context";
 
 const SignUp: React.FC = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+  const navigate = useNavigate();
+  const { setIsAuth } = useContext(AuthContext);
+  const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
-    confirmPassword: "",
   });
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,19 +22,29 @@ const SignUp: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Пароли не совпадают");
-      return;
+    setError("");
+    setLoading(true);
+
+    try {
+      await AuthService.register(formData);
+      setIsAuth(true);
+      navigate("/todo");
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message || "Failed to sign up. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
-    console.log("Form submitted:", formData);
   };
 
   return (
     <div className="auth-container">
       <div className="auth-form-container">
         <h1 className="auth-title">Sign Up</h1>
+        {error && <div className="auth-error">{error}</div>}
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -42,6 +56,7 @@ const SignUp: React.FC = () => {
               onChange={handleChange}
               placeholder="Enter your email"
               required
+              disabled={loading}
             />
           </div>
           <div className="form-group">
@@ -54,10 +69,11 @@ const SignUp: React.FC = () => {
               onChange={handleChange}
               placeholder="Enter your password"
               required
+              disabled={loading}
             />
           </div>
-          <button type="submit" className="auth-button">
-            Sign Up
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
         <p className="auth-redirect">

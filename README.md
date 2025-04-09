@@ -1,4 +1,4 @@
-# Project Name
+# ToDo Web App
 
 This project consists of a React TypeScript frontend and a Node.js Express TypeScript backend.
 

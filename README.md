@@ -30,7 +30,7 @@ This project consists of a React TypeScript frontend and a Node.js Express TypeS
    npm install
    ```
 
-3. Create a `.env` file in the backend directory with the following variables or copy .env.example:
+3. Create a `.env` file in the backend directory with the following variables or copy `.env.example`:
    ```
    DB_USER=postgres
    DB_PASSWORD=root

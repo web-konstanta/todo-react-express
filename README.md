@@ -4,7 +4,7 @@ This project consists of a React TypeScript frontend and a Node.js Express TypeS
 
 ## Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - npm (Node Package Manager)
 - Git
 
@@ -30,9 +30,15 @@ This project consists of a React TypeScript frontend and a Node.js Express TypeS
    npm install
    ```
 
-3. Create a `.env` file in the backend directory with the following variables:
+3. Create a `.env` file in the backend directory with the following variables or copy .env.example:
    ```
-   DATABASE_URL="your_database_url"
+   DB_USER=postgres
+   DB_PASSWORD=root
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_NAME=todo_db
+   DB_SCHEMA=public
+   DATABASE_URL="DATABASE_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=${DB_SCHEMA}""
    JWT_SECRET="your_jwt_secret"
    PORT=5000
    ```
